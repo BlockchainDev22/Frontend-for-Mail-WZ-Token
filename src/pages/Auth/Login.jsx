@@ -1,16 +1,6 @@
-import { useEffect } from "react";
-import {
-    Input,
-    Ripple,
-    Tab,
-    initTE,
-} from "tw-elements";
+import { TEInput } from "tw-elements-react";
 
 const Login = () => {
-
-    useEffect(() => {
-        initTE({ Input, Ripple, Tab });
-    }, []);
 
     return (
         <section className="gradient-form h-full bg-neutral-200 dark:bg-neutral-700">
@@ -32,39 +22,14 @@ const Login = () => {
                                                 Mail WZ
                                             </h4>
                                         </div>
-                                        <ul
-                                            className="mb-5 flex list-none flex-col flex-wrap pl-0 md:flex-row"
-                                            id="pills-tab"
-                                            role="tablist"
-                                            data-te-nav-ref>
-                                            <li role="presentation">
-                                                <a
-                                                    href="#pills-home"
-                                                    className="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4"
-                                                    id="pills-home-tab"
-                                                    data-te-toggle="pill"
-                                                    data-te-target="#pills-home"
-                                                    data-te-nav-active
-                                                    role="tab"
-                                                    aria-controls="pills-home"
-                                                    aria-selected="true"
-                                                >Crypto Wallet</a
-                                                >
-                                            </li>
-                                            <li role="presentation">
-                                                <a
-                                                    href="#pills-profile"
-                                                    className="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4"
-                                                    id="pills-profile-tab"
-                                                    data-te-toggle="pill"
-                                                    data-te-target="#pills-profile"
-                                                    role="tab"
-                                                    aria-controls="pills-profile"
-                                                    aria-selected="false"
-                                                >Bank</a
-                                                >
-                                            </li>
-                                        </ul>
+                                        <div className="flex gap-1 mb-4">
+                                            <button
+                                                className="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4"
+                                            >Crypto Wallet</button>
+                                            <button
+                                                className="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4"
+                                            >Bank</button>
+                                        </div>
 
                                         <div className="mb-6">
                                             <div
@@ -75,32 +40,19 @@ const Login = () => {
                                                 data-te-tab-active>
                                                 <form>
                                                     <p class="mb-4">To check if your email in the winning list fill correct Email and click Proceed to the next step.</p>
-                                                    <div class="relative mb-4" data-te-input-wrapper-init>
-                                                        <input
-                                                            type="email"
-                                                            class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                                                            id="exampleFormControlInput1"
-                                                            placeholder="Email" />
-                                                        <label
-                                                            for="exampleFormControlInput1"
-                                                            class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                                                        >Email
-                                                        </label>
-                                                    </div>
+                                                    <TEInput
+                                                        type="email"
+                                                        placeholder="Email"
+                                                        label="Email"
+                                                        className="mb-4"
+                                                    />
 
-                                                    <div class="relative mb-4" data-te-input-wrapper-init>
-                                                        <input
-                                                            type="password"
-                                                            class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                                                            id="exampleFormControlInput11"
-                                                            placeholder="Password" />
-                                                        <label
-                                                            for="exampleFormControlInput11"
-                                                            class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                                                        >Password
-                                                        </label>
-                                                    </div>
-
+                                                    <TEInput
+                                                        type="password"
+                                                        placeholder="Password"
+                                                        label="Password"
+                                                        className="mb-4"
+                                                    />
                                                     <div class="mb-12 pb-1 pt-1 text-center">
                                                         <button
                                                             class="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
@@ -113,13 +65,6 @@ const Login = () => {
 
                                                     </div>
                                                 </form>
-                                            </div>
-                                            <div
-                                                className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
-                                                id="pills-profile"
-                                                role="tabpanel"
-                                                aria-labelledby="pills-profile-tab">
-                                                Tab 2 content
                                             </div>
                                         </div>
                                     </div>

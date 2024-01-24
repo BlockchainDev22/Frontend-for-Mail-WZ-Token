@@ -1,28 +1,18 @@
-import React, { useEffect } from "react";
-import {
-    Sidenav,
-    Dropdown,
-    Ripple,
-    initTE,
-} from "tw-elements";
+import { Link } from "react-router-dom";
 
 const navs = [
     {
-        path: "", label: "Home"
+        to: "/home", label: "Home"
     },
     {
-        path: "", label: "Payments"
+        to: "/payments", label: "Payments"
     },
     {
-        path: "", label: "Approve Payout"
+        to: "/approve-payout", label: "Approve Payout"
     },
 ];
 
 const Sidebar = () => {
-
-    useEffect(() => {
-        initTE({ Sidenav, Dropdown, Ripple });
-    }, []);
 
     return (
         <header>
@@ -34,12 +24,11 @@ const Sidebar = () => {
                 data-te-sidenav-mode-breakpoint-over="0"
                 data-te-sidenav-mode-breakpoint-side="xl"
                 data-te-sidenav-content="#content"
-                data-te-sidenav-accordion="true">
-                <a
+                data-te-sidenav-accordion="true"
+                >
+                <div
                     className="mb-3 flex items-center justify-center py-6 outline-none"
-                    href="#!"
-                    data-te-ripple-init
-                    data-te-ripple-color="primary">
+                    >
                     <img
                         id="te-logo"
                         className="mr-2 w-8"
@@ -47,7 +36,7 @@ const Sidebar = () => {
                         alt="TE Logo"
                         draggable="false" />
                     <span>Coin On Top</span>
-                </a>
+                </div>
 
                 <ul
                     className="relative m-0 list-none px-[0.2rem]"
@@ -55,9 +44,9 @@ const Sidebar = () => {
                     {
                         navs.map((nav, index) => (
                             <li className="relative" key={index}>
-                                <a
+                                <Link
                                     className="group flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-700 outline-none transition duration-300 ease-linear hover:bg-primary-400/10 hover:text-primary-600 hover:outline-none focus:bg-primary-400/10 focus:text-primary-600 focus:outline-none active:bg-primary-400/10 active:text-primary-600 active:outline-none data-[te-sidenav-state-active]:text-primary-600 data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                                    href="#!"
+                                    to={nav.to}
                                     data-te-sidenav-link-ref>
                                     <span
                                         className="mr-4 [&>svg]:h-3.5 [&>svg]:w-3.5 [&>svg]:fill-gray-700 [&>svg]:transition [&>svg]:duration-300 [&>svg]:ease-linear group-hover:[&>svg]:fill-primary-600 group-focus:[&>svg]:fill-primary-600 group-active:[&>svg]:fill-primary-600 group-[te-sidenav-state-active]:[&>svg]:fill-primary-600 motion-reduce:[&>svg]:transition-none dark:[&>svg]:fill-gray-300 dark:group-hover:[&>svg]:fill-gray-300 ">
@@ -69,7 +58,7 @@ const Sidebar = () => {
                                         </svg>
                                     </span>
                                     <span>{nav.label}</span>
-                                </a>
+                                </Link>
                             </li>
                         ))
                     }
@@ -87,7 +76,7 @@ const Sidebar = () => {
                         <li className="relative" data-te-dropdown-ref>
                             <a
                                 className="mr-4 flex items-center text-gray-500 hover:text-gray-700 focus:text-gray-700"
-                                href="#"
+                                href={() => false}
                                 id="navbarDropdownMenuLink"
                                 role="button"
                                 data-te-dropdown-toggle-ref
@@ -118,7 +107,7 @@ const Sidebar = () => {
                                 <li>
                                     <a
                                         className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-gray-700 hover:bg-gray-100 active:text-zinc-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-gray-400 dark:text-gray-200 dark:hover:bg-white/30"
-                                        href="#"
+                                        href={() => false}
                                         data-te-dropdown-item-ref
                                     >Some news</a
                                     >
@@ -126,7 +115,7 @@ const Sidebar = () => {
                                 <li>
                                     <a
                                         className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-gray-700 hover:bg-gray-100 active:text-zinc-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-gray-400 dark:text-gray-200 dark:hover:bg-white/30"
-                                        href="#"
+                                        href={() => false}
                                         data-te-dropdown-item-ref
                                     >Another news</a
                                     >
@@ -134,7 +123,7 @@ const Sidebar = () => {
                                 <li>
                                     <a
                                         className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-gray-700 hover:bg-gray-100 active:text-zinc-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-gray-400 dark:text-gray-200 dark:hover:bg-white/30"
-                                        href="#"
+                                        href={() => false}
                                         data-te-dropdown-item-ref
                                     >Something else here</a
                                     >
