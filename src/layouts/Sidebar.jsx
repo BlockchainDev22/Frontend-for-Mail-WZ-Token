@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import ConnectWallet from "../components/ConnectWallet";
 import Nav from "../components/Nav";
 
 const navs = [
@@ -19,7 +20,7 @@ const Sidebar = () => {
         <header>
             <nav
                 id="sidenav-1"
-                className="fixed left-0 top-0 z-[1035] h-screen w-60 -translate-x-full overflow-hidden bg-white shadow-[0_4px_12px_0_rgba(0,0,0,0.07),_0_2px_4px_rgba(0,0,0,0.05)] dark:bg-zinc-800 xl:data-[te-sidenav-hidden='false']:translate-x-0"
+                className="fixed left-0 top-0 z-[99] h-screen w-60 -translate-x-full overflow-hidden bg-white shadow-[0_4px_12px_0_rgba(0,0,0,0.07),_0_2px_4px_rgba(0,0,0,0.05)] dark:bg-zinc-800 xl:data-[te-sidenav-hidden='false']:translate-x-0"
                 data-te-sidenav-init
                 data-te-sidenav-hidden="false"
                 data-te-sidenav-mode-breakpoint-over="0"
@@ -52,12 +53,12 @@ const Sidebar = () => {
 
             <nav
                 id="main-navbar"
-                className="fixed left-0 right-0 top-0 flex w-full h-12 flex-nowrap items-center justify-between bg-white py-[0.6rem] text-gray-500 shadow-lg hover:text-gray-700 focus:text-gray-700 dark:bg-zinc-700 lg:flex-wrap lg:justify-start xl:pl-60"
+                className="fixed left-0 right-0 top-0 flex w-full h-16 flex-nowrap items-center justify-between bg-white py-[0.6rem] text-gray-500 shadow-lg hover:text-gray-700 focus:text-gray-700 dark:bg-zinc-700 lg:flex-wrap lg:justify-start xl:pl-60"
                 data-te-navbar-ref>
                 <div
                     className="flex w-full flex-wrap items-center justify-end px-4">
-                    
-                    <ul className="relative flex items-center">
+                    <ConnectWallet/>
+                    <ul className="relative flex items-center ml-4">
                         <li className="relative" data-te-dropdown-ref>
                             <a
                                 className="mr-4 flex items-center text-gray-500 hover:text-gray-700 focus:text-gray-700"
