@@ -1,6 +1,6 @@
 // App.js
 import React from "react";
-import { useRoutes } from "react-router-dom";
+import { Navigate, useRoutes } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import Home from "./pages/Home";
 import Payments from "./pages/Payments";
@@ -23,6 +23,10 @@ function App() {
     {
       path: "/approve-payout",
       element: <ApprovePayout/>
+    },
+    {
+      path: "*",
+      element: <Navigate to="auth/login"/>
     }
   ]);
  

@@ -1,9 +1,20 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { TEInput } from "tw-elements-react";
 
 const Login = () => {
 
+    const navigate = useNavigate();
+
+    const [email, setEmail] = useState('user@gmail.com');
+    const [password, setPassword] = useState('123123');
+
+    const onAuth = () => {
+        navigate("/home");
+    }
+
     return (
-        <section className="gradient-form h-full bg-neutral-200 dark:bg-neutral-700">
+        <section className="gradient-form h-full bg-auth">
             <div className="container max-w-6xl h-full p-10 mx-auto">
                 <div
                     className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
@@ -45,6 +56,8 @@ const Login = () => {
                                                         placeholder="Email"
                                                         label="Email"
                                                         className="mb-4"
+                                                        value={email}
+                                                        onChange={(e) => setEmail(e.target.value)}
                                                     />
 
                                                     <TEInput
@@ -52,6 +65,8 @@ const Login = () => {
                                                         placeholder="Password"
                                                         label="Password"
                                                         className="mb-4"
+                                                        value={password}
+                                                        onChange={(e) => setPassword(e.target.value)}
                                                     />
                                                     <div className="mb-12 pb-1 pt-1 text-center">
                                                         <button
@@ -59,7 +74,9 @@ const Login = () => {
                                                             type="button"
                                                             data-te-ripple-init
                                                             data-te-ripple-color="light"
-                                                            style={{ background: 'linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)' }}>
+                                                            style={{ background: 'linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)' }}
+                                                            onClick={onAuth}
+                                                            >
                                                             Click to Next Step
                                                         </button>
 
