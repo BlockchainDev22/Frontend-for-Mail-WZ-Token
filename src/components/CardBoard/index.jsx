@@ -17,7 +17,7 @@ const cards = [
 
 const CardBoard = () => {
     return (
-        <div className="flex gap-4">
+        <div className="grid gap-4 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
             {
                 cards.map((card, index) => (
                     <StatusCard {...card} key={index} />
