@@ -5,12 +5,17 @@ import Login from "./pages/Auth/Login";
 import Home from "./pages/Home";
 import Payments from "./pages/Payments";
 import ApprovePayout from "./pages/ApprovePayout";
+import Register from "./pages/Auth/Register";
 
 function App() {
   const routes = useRoutes([
     {
       path: "auth/login",
       element: <Login />,
+    },
+    {
+      path: "auth/register",
+      element: <Register />,
     },
     {
       path: "/home",

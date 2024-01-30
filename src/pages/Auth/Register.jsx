@@ -2,25 +2,49 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { TEInput } from "tw-elements-react";
+import Alert from "../../components/Alert";
 
-const Login = () => {
+const Register = () => {
 
     const navigate = useNavigate();
 
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('user@gmail.com');
     const [password, setPassword] = useState('123123');
+    const [password_confirmation, setPasswordConfirmation] = useState('123123');
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alertText, setAlertText] = useState('');
+    const [alertColor, setAlertColor] = useState('bg-success-100 text-success-800');
 
-    const onLogin = async () => {
-        const url = process.env.REACT_APP_API + '/login';
-        await axios.post(url, { email, password }).then(res => {
-            console.log(res);
+    const onRegister = async () => {
+        const url = process.env.REACT_APP_API + '/register';
+        await axios.post(url, {
+            name,
+            email,
+            password,
+            password_confirmation
+        }).then(res => {
+            const { message } = res.data;
+            setAlertText(message);
+            setOpenAlert("true");
+            setAlertColor("bg-success-100 text-success-800");
+            navigate("/auth/login");
         }).catch(err => {
-            console.log(err);
+            const { message } = err.response.data;
+            setAlertText(message);
+            setOpenAlert(true);
+            setAlertColor("bg-danger-100 text-danger-800");
         })
     }
 
     return (
         <section className="gradient-form h-full bg-auth">
+            <Alert
+                text={alertText}
+                color={alertColor}
+                open={openAlert}
+                setOpen={setOpenAlert}
+            />
             <div className="container max-w-6xl h-full p-10 mx-auto">
                 <div
                     className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
@@ -39,14 +63,6 @@ const Login = () => {
                                                 Mail WZ
                                             </h4>
                                         </div>
-                                        <div className="flex gap-1 mb-4">
-                                            <button
-                                                className="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4"
-                                            >Crypto Wallet</button>
-                                            <button
-                                                className="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4"
-                                            >Bank</button>
-                                        </div>
 
                                         <div className="mb-6">
                                             <div
@@ -57,6 +73,15 @@ const Login = () => {
                                                 data-te-tab-active>
                                                 <form>
                                                     <p className="mb-4">To check if your email in the winning list fill correct Email and click Proceed to the next step.</p>
+                                                    <TEInput
+                                                        type="text"
+                                                        placeholder="Full Name"
+                                                        label="Full Name"
+                                                        className="mb-4"
+                                                        value={name}
+                                                        onChange={(e) => setName(e.target.value)}
+                                                    />
+
                                                     <TEInput
                                                         type="email"
                                                         placeholder="Email"
@@ -74,6 +99,16 @@ const Login = () => {
                                                         value={password}
                                                         onChange={(e) => setPassword(e.target.value)}
                                                     />
+
+                                                    <TEInput
+                                                        type="password"
+                                                        placeholder="Confrim Password"
+                                                        label="Confirm Password"
+                                                        className="mb-4"
+                                                        value={password_confirmation}
+                                                        onChange={(e) => setPasswordConfirmation(e.target.value)}
+                                                    />
+
                                                     <div className="mb-12 pb-1 pt-1 text-center">
                                                         <button
                                                             className="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
@@ -81,13 +116,13 @@ const Login = () => {
                                                             data-te-ripple-init
                                                             data-te-ripple-color="light"
                                                             style={{ background: 'linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)' }}
-                                                            onClick={onLogin}
+                                                            onClick={onRegister}
                                                             >
                                                             Click to Next Step
                                                         </button>
-                                                        
+
                                                         <div>
-                                                            <span>Don't you have account? <Link to={"/auth/register"} className="text-teal-400 underline">Create Account</Link></span>
+                                                            <span>Do you have account? <Link to={"/auth/login"} className="text-teal-400 underline">Login</Link></span>
                                                         </div>
 
                                                     </div>
@@ -118,4 +153,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default Register;
