@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { TEInput } from "tw-elements-react";
+import { updateColor, updateOpened, updateText } from "../../app/reducers/alert.reducer";
 
 const Login = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [email, setEmail] = useState('user@gmail.com');
     const [password, setPassword] = useState('123123');
@@ -13,7 +16,14 @@ const Login = () => {
     const onLogin = async () => {
         const url = process.env.REACT_APP_API + '/login';
         await axios.post(url, { email, password }).then(res => {
-            console.log(res);
+            const { message, token } = res.data;
+            
+            dispatch(updateText(message));
+            dispatch(updateColor("bg-success-400 text-success-700"));
+            dispatch(updateOpened(true));
+
+            window.localStorage.setItem("token", token);
+            navigate("/home");
         }).catch(err => {
             console.log(err);
         })
