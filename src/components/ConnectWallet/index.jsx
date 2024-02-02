@@ -1,9 +1,9 @@
-import { createWeb3Modal, defaultConfig, useWeb3ModalAccount } from '@web3modal/ethers5/react'
+import { createWeb3Modal, defaultConfig, useDisconnect, useWeb3ModalAccount } from '@web3modal/ethers5/react'
 import axios from 'axios'
 import { useEffect } from 'react'
 import { updateColor, updateOpened, updateText } from '../../app/reducers/alert.reducer'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateAuth } from '../../app/reducers/auth.reducer'
+import { updateWallet, updateWalletConnected } from '../../app/reducers/auth.reducer'
 
 const projectId = '6d74644ff5318617e2b90c49de5ac19d'
 
@@ -43,14 +43,11 @@ const ConnectWallet = () => {
 
     const dispatch = useDispatch();
     const { address, chainId, isConnected } = useWeb3ModalAccount();
-    const { wallet } = useSelector(({ auth }) => auth);
+    const { disconnect } = useDisconnect();
+    const { wallet, isWalletConnected } = useSelector(({ auth }) => auth);
 
     useEffect(() => {
-
-      if (address && isConnected) {
-        if (wallet != address) dispatch(updateAuth({ wallet: address }));
-      }
-
+        dispatch(updateWallet(address));
     }, [address, isConnected]);
 
     useEffect(() => {
@@ -66,11 +63,15 @@ const ConnectWallet = () => {
           }
         ).then(res => {
           const { status, message } = res.data;
-          dispatch(updateText(message));
-          dispatch(updateColor(status ? "bg-success-400 text-success-700" : "bg-danger-400 text-danger-700"));
-          dispatch(updateOpened(true));
+          if (status != isWalletConnected) {
+            dispatch(updateText(message));
+            dispatch(updateColor(status ? "bg-success-400 text-success-700" : "bg-danger-400 text-danger-700"));
+            dispatch(updateOpened(true));
+            dispatch(updateWalletConnected(status));
+            if (!status) disconnect();
+          }
         }).catch(err => {
-          console.log(err);
+          if (disconnect) disconnect();
         });
       }
     }, [wallet]);
