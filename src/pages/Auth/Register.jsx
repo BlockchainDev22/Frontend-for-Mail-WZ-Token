@@ -2,19 +2,18 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { TEInput } from "tw-elements-react";
-import Alert from "../../components/Alert";
+import { useDispatch } from "react-redux";
+import { updateColor, updateOpened, updateText } from "../../app/reducers/alert.reducer";
 
 const Register = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('user@gmail.com');
     const [password, setPassword] = useState('123123');
     const [password_confirmation, setPasswordConfirmation] = useState('123123');
-    const [openAlert, setOpenAlert] = useState(false);
-    const [alertText, setAlertText] = useState('');
-    const [alertColor, setAlertColor] = useState('bg-success-100 text-success-800');
 
     const onRegister = async () => {
         const url = process.env.REACT_APP_API + '/register';
@@ -24,27 +23,27 @@ const Register = () => {
             password,
             password_confirmation
         }).then(res => {
-            const { message } = res.data;
-            setAlertText(message);
-            setOpenAlert("true");
-            setAlertColor("bg-success-100 text-success-800");
-            navigate("/auth/login");
+            const { message, status } = res.data;
+
+            dispatch(updateText(message));
+            dispatch(updateColor(status ? "bg-success-400 text-success-700" : "bg-danger-400 text-danger-700"));
+            dispatch(updateOpened(true));
+
+            if (status) {
+                console.log(res.data);
+                navigate("/home");
+            }
+
         }).catch(err => {
             const { message } = err.response.data;
-            setAlertText(message);
-            setOpenAlert(true);
-            setAlertColor("bg-danger-100 text-danger-800");
+            dispatch(updateText(message));
+            dispatch(updateColor("bg-danger-400 text-danger-700"));
+            dispatch(updateOpened(true));
         })
     }
 
     return (
         <section className="gradient-form h-full bg-auth">
-            <Alert
-                text={alertText}
-                color={alertColor}
-                open={openAlert}
-                setOpen={setOpenAlert}
-            />
             <div className="container max-w-6xl h-full p-10 mx-auto">
                 <div
                     className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">

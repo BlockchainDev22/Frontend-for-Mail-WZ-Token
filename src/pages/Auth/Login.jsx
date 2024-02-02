@@ -16,14 +16,17 @@ const Login = () => {
     const onLogin = async () => {
         const url = process.env.REACT_APP_API + '/login';
         await axios.post(url, { email, password }).then(res => {
-            const { message, token } = res.data;
-            
+            const { message, token, status } = res.data;
+
             dispatch(updateText(message));
-            dispatch(updateColor("bg-success-400 text-success-700"));
+            dispatch(updateColor(status ? "bg-success-400 text-success-700" : "bg-danger-400 text-danger-700"));
             dispatch(updateOpened(true));
 
-            window.localStorage.setItem("token", token);
-            navigate("/home");
+            if (status) {
+                window.localStorage.setItem("token", token);
+                navigate("/home");
+            }
+
         }).catch(err => {
             console.log(err);
         })
