@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { useEffect } from "react";
 import ConnectWallet from "../components/ConnectWallet";
 import Nav from "../components/Nav";
+import { useLocation } from "react-router-dom";
 
 const navs = [
     {
@@ -15,6 +17,14 @@ const navs = [
 ];
 
 const Sidebar = () => {
+
+    const location = useLocation();
+
+    useEffect(() => {
+
+        console.log(location);
+
+    }, [location]);
 
     return (
         <header>

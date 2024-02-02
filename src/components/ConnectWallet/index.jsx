@@ -1,4 +1,9 @@
-import { createWeb3Modal, defaultConfig } from '@web3modal/ethers5/react'
+import { createWeb3Modal, defaultConfig, useWeb3ModalAccount } from '@web3modal/ethers5/react'
+import axios from 'axios'
+import { useEffect } from 'react'
+import { updateColor, updateOpened, updateText } from '../../app/reducers/alert.reducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateAuth } from '../../app/reducers/auth.reducer'
 
 const projectId = '6d74644ff5318617e2b90c49de5ac19d'
 
@@ -35,6 +40,40 @@ createWeb3Modal({
 
 
 const ConnectWallet = () => {
+
+    const dispatch = useDispatch();
+    const { address, chainId, isConnected } = useWeb3ModalAccount();
+    const { wallet } = useSelector(({ auth }) => auth);
+
+    useEffect(() => {
+
+      if (address && isConnected) {
+        if (wallet != address) dispatch(updateAuth({ wallet: address }));
+      }
+
+    }, [address, isConnected]);
+
+    useEffect(() => {
+      if (wallet) {
+        const api = process.env.REACT_APP_API + "/check-wallet";
+        const yourJWTToken = window.localStorage.getItem("token");
+        axios.post(api,
+          { wallet: address },
+          {
+            headers: {
+              Authorization: "Bearer " + yourJWTToken
+            }
+          }
+        ).then(res => {
+          const { status, message } = res.data;
+          dispatch(updateText(message));
+          dispatch(updateColor(status ? "bg-success-400 text-success-700" : "bg-danger-400 text-danger-700"));
+          dispatch(updateOpened(true));
+        }).catch(err => {
+          console.log(err);
+        });
+      }
+    }, [wallet]);
 
     return (
         <w3m-button />
