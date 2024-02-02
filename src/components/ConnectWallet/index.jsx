@@ -20,6 +20,7 @@ const bsc = {
 
 // const metadata = {
 //   name: 'My Website',
+
 //   description: 'My Website description',
 //   url: 'https://mywebsite.com', // origin must match your domain & subdomain
 //   icons: ['https://avatars.mywebsite.com/']
