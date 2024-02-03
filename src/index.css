@@ -7,3 +7,38 @@
     background-image: url(./assets/images/bg.png);
     background-size: cover;
 }
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.payout-container::-webkit-scrollbar {
+    height: 4px;
+}
+
+.payout-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+.payout-container::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+.payout-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

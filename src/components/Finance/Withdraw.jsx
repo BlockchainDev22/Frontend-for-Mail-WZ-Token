@@ -2,6 +2,7 @@ import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/re
 import { withdrawSign } from "../../utils/signData";
 import { abi, contractAddress } from "../../utils/config";
 import { ethers } from "ethers";
+import { getProfile } from "../../utils/utils";
 
 const Withdraw = () => {
 
@@ -9,17 +10,23 @@ const Withdraw = () => {
     const { walletProvider } = useWeb3ModalProvider();
 
     const withdraw = async() => {
-        if (!isConnected) throw Error('User disconnected')
+        if (!isConnected) return;
 
-        const ethersProvider = new ethers.providers.Web3Provider(walletProvider);
-        const signer = await ethersProvider.getSigner();
-
-        const MailWZ = new ethers.Contract(contractAddress.bsc, abi, signer);
-        const nonce = await MailWZ.nonces(address);
-
-        const signature = await withdrawSign(ethers.BigNumber.from(nonce).toNumber(), address, 1000, contractAddress.bsc, ethersProvider);
-
-        console.log(signature);
+        const profile = await getProfile();
+        if (profile?.balance > 0) {
+            const ethersProvider = new ethers.providers.Web3Provider(walletProvider);
+            const signer = await ethersProvider.getSigner();
+    
+            const MailWZ = new ethers.Contract(contractAddress.bsc, abi, signer);
+            const nonce = await MailWZ.nonces(address);
+            const amount = ethers.utils.parseEther(profile.balance);
+            const _tax = await MailWZ.calculateTax();
+           
+            const signature = await withdrawSign(ethers.BigNumber.from(nonce).toHexString(), address, amount.toHexString(), contractAddress.bsc, ethersProvider);
+            const options = { value: _tax };
+            await MailWZ.withdraw(address, amount, signature, options);
+           
+        }
     }
 
     return (
