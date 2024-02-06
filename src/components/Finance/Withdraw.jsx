@@ -14,7 +14,10 @@ const Withdraw = () => {
     const { walletProvider } = useWeb3ModalProvider();
 
     const withdraw = async () => {
-        if (!isConnected) return;
+        if (!isConnected) {
+            NotificationManager.warning("Wallet is not connected", "Warning");
+            return;
+        };
 
         const profile = await getProfile();
         if (profile?.balance) {
@@ -26,7 +29,7 @@ const Withdraw = () => {
             try {
                 dispatch(updateLoading(true));
                 const ethersProvider = new ethers.providers.Web3Provider(walletProvider);
-                const signer = await ethersProvider.getSigner();
+                const signer = ethersProvider.getSigner();
 
                 const MailWZ = new ethers.Contract(contractAddress.bsc, abi, signer);
                 const nonce = await MailWZ.nonces(address);
@@ -36,8 +39,10 @@ const Withdraw = () => {
                 const signature = await withdrawSign(ethers.BigNumber.from(nonce).toHexString(), address, amount.toHexString(), contractAddress.bsc, ethersProvider);
                 const options = { value: _tax };
                 await MailWZ.withdraw(address, amount, signature, options);
+
                 NotificationManager.success(`You have withdrawn $${profile.balance} successfully`);
                 dispatch(updateLoading(false));
+                
             } catch (err) {
                 console.log(err);
                 dispatch(updateLoading(false));
