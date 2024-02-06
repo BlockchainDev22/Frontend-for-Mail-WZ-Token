@@ -4,7 +4,8 @@ const initialState = {
     name: "",
     email: "",
     wallet: "",
-    isWalletConnected: false
+    isWalletConnected: false,
+    isLoading: false
 }
 
 const userSlice = createSlice({
@@ -19,9 +20,12 @@ const userSlice = createSlice({
         },
         updateWalletConnected(state, action) {
             state.isWalletConnected = action.payload;
+        },
+        updateLoading(state, action) {
+            state.isLoading = action.payload;
         }
     }
 });
 
-export const { updateAuth, updateWallet, updateWalletConnected } = userSlice.actions;
+export const { updateAuth, updateWallet, updateWalletConnected, updateLoading } = userSlice.actions;
 export default userSlice.reducer;

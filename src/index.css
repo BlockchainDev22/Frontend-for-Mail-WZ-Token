@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import "tw-elements-react/dist/css/tw-elements-react.min.css";
+@import 'react-notifications/lib/notifications.css';
 
 .bg-auth {
     background-image: url(./assets/images/bg.png);

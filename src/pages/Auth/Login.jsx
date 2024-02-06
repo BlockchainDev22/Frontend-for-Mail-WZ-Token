@@ -1,14 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { TEInput } from "tw-elements-react";
-import { updateColor, updateOpened, updateText } from "../../app/reducers/alert.reducer";
+import { NotificationManager } from "react-notifications";
 
 const Login = () => {
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const [email, setEmail] = useState('user@gmail.com');
     const [password, setPassword] = useState('123123');
@@ -18,13 +16,14 @@ const Login = () => {
         await axios.post(url, { email, password }).then(res => {
             const { message, token, status } = res.data;
 
-            dispatch(updateText(message));
-            dispatch(updateColor(status ? "bg-success-400 text-success-700" : "bg-danger-400 text-danger-700"));
-            dispatch(updateOpened(true));
-
             if (status) {
+                NotificationManager.success(message);
                 window.localStorage.setItem("token", token);
                 navigate("/home");
+            }
+
+            else {
+                NotificationManager.error(message);
             }
 
         }).catch(err => {

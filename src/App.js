@@ -6,13 +6,15 @@ import Home from "./pages/Home";
 import Payments from "./pages/Payments";
 import ApprovePayout from "./pages/ApprovePayout";
 import Register from "./pages/Auth/Register";
-import Alert from "./components/Alert";
+import {NotificationContainer} from 'react-notifications';
+import Loading from "./components/Loading";
 
 function App() {
  
   return (
     <>
-      <Alert/>
+      <Loading/>
+      <NotificationContainer/>
       <Routes>
         <Route path="/auth/login" element={<Login />}/>
         <Route path="/auth/register" element={<Register />}/>

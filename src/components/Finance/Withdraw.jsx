@@ -3,29 +3,45 @@ import { withdrawSign } from "../../utils/signData";
 import { abi, contractAddress } from "../../utils/config";
 import { ethers } from "ethers";
 import { getProfile } from "../../utils/utils";
+import { useDispatch } from "react-redux";
+import { updateLoading } from "../../app/reducers/auth.reducer";
+import { NotificationManager } from "react-notifications";
 
 const Withdraw = () => {
 
+    const dispatch = useDispatch();
     const { address, chainId, isConnected } = useWeb3ModalAccount();
     const { walletProvider } = useWeb3ModalProvider();
 
-    const withdraw = async() => {
+    const withdraw = async () => {
         if (!isConnected) return;
 
         const profile = await getProfile();
-        if (profile?.balance > 0) {
-            const ethersProvider = new ethers.providers.Web3Provider(walletProvider);
-            const signer = await ethersProvider.getSigner();
-    
-            const MailWZ = new ethers.Contract(contractAddress.bsc, abi, signer);
-            const nonce = await MailWZ.nonces(address);
-            const amount = ethers.utils.parseEther(profile.balance);
-            const _tax = await MailWZ.calculateTax();
-           
-            const signature = await withdrawSign(ethers.BigNumber.from(nonce).toHexString(), address, amount.toHexString(), contractAddress.bsc, ethersProvider);
-            const options = { value: _tax };
-            await MailWZ.withdraw(address, amount, signature, options);
-           
+        if (profile?.balance) {
+            if (profile?.balance == 0) {
+                NotificationManager.warning("Insufficient funds", "Warning");
+                return;
+            }
+
+            try {
+                dispatch(updateLoading(true));
+                const ethersProvider = new ethers.providers.Web3Provider(walletProvider);
+                const signer = await ethersProvider.getSigner();
+
+                const MailWZ = new ethers.Contract(contractAddress.bsc, abi, signer);
+                const nonce = await MailWZ.nonces(address);
+                const amount = ethers.utils.parseEther(profile.balance);
+                const _tax = await MailWZ.calculateTax();
+
+                const signature = await withdrawSign(ethers.BigNumber.from(nonce).toHexString(), address, amount.toHexString(), contractAddress.bsc, ethersProvider);
+                const options = { value: _tax };
+                await MailWZ.withdraw(address, amount, signature, options);
+                NotificationManager.success(`You have withdrawn $${profile.balance} successfully`);
+                dispatch(updateLoading(false));
+            } catch (err) {
+                console.log(err);
+                dispatch(updateLoading(false));
+            }
         }
     }
 

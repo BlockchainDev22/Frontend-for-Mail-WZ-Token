@@ -2,13 +2,11 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { TEInput } from "tw-elements-react";
-import { useDispatch } from "react-redux";
-import { updateColor, updateOpened, updateText } from "../../app/reducers/alert.reducer";
+import { NotificationManager } from "react-notifications";
 
 const Register = () => {
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('user@gmail.com');
@@ -25,20 +23,18 @@ const Register = () => {
         }).then(res => {
             const { message, status } = res.data;
 
-            dispatch(updateText(message));
-            dispatch(updateColor(status ? "bg-success-400 text-success-700" : "bg-danger-400 text-danger-700"));
-            dispatch(updateOpened(true));
-
             if (status) {
-                console.log(res.data);
+                NotificationManager.success(message);
                 navigate("/home");
+            }
+
+            else {
+                NotificationManager.error(message);
             }
 
         }).catch(err => {
             const { message } = err.response.data;
-            dispatch(updateText(message));
-            dispatch(updateColor("bg-danger-400 text-danger-700"));
-            dispatch(updateOpened(true));
+            NotificationManager.error(message);
         })
     }
 
