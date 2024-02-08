@@ -9,9 +9,9 @@ const Register = () => {
     const navigate = useNavigate();
 
     const [name, setName] = useState('');
-    const [email, setEmail] = useState('user@gmail.com');
-    const [password, setPassword] = useState('123123');
-    const [password_confirmation, setPasswordConfirmation] = useState('123123');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [password_confirmation, setPasswordConfirmation] = useState('');
 
     const onRegister = async () => {
         const url = process.env.REACT_APP_API + '/register';
@@ -25,7 +25,7 @@ const Register = () => {
 
             if (status) {
                 NotificationManager.success(message);
-                navigate("/home");
+                navigate("/");
             }
 
             else {

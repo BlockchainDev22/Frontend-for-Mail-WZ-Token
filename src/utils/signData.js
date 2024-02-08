@@ -1,7 +1,7 @@
 export const withdrawSign = async (nonce, from, amount, to, provider) => {
     const typedData = {
         domain: {
-            chainId: 97,
+            chainId: 56,
             name: 'MailWZ',
             verifyingContract: to,
             version: '1'

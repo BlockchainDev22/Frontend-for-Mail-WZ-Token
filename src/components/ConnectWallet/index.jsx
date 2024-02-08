@@ -1,7 +1,9 @@
-import { createWeb3Modal, defaultConfig, useWeb3ModalAccount } from '@web3modal/ethers5/react'
+import { createWeb3Modal, defaultConfig, useDisconnect, useWeb3ModalAccount } from '@web3modal/ethers5/react'
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { updateWallet } from '../../app/reducers/auth.reducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateWallet, updateWalletConnected } from '../../app/reducers/auth.reducer'
+import { NotificationManager } from 'react-notifications'
+import axios from 'axios'
 
 const projectId = '6d74644ff5318617e2b90c49de5ac19d'
 
@@ -14,23 +16,22 @@ const eth = {
 }
 
 const bsc = {
-  chainId: 97, //mainnet: 56,
+  chainId: 56, //mainnet: 56,
   name: "Binance Smart Chain",
   currency: "BNB",
-  explorerUrl: "https://testnet.bscscan.com",
-  rpcUrl: "https://bsc-testnet.public.blastapi.io"
+  explorerUrl: "https://bscscan.com",
+  rpcUrl: "https://bsc-mainnet.nodereal.io/v1/cd4737962b15430a95b1b490baee25e5"
 }
 
-// const metadata = {
-//   name: 'My Website',
-
-//   description: 'My Website description',
-//   url: 'https://mywebsite.com', // origin must match your domain & subdomain
-//   icons: ['https://avatars.mywebsite.com/']
-// }
+const metadata = {
+  name: 'MailWZ',
+  description: 'Mail WZ',
+  url: 'https://mailwz.tk', // origin must match your domain & subdomain
+  icons: []
+}
 
 createWeb3Modal({
-  ethersConfig: defaultConfig({}),
+  ethersConfig: defaultConfig(metadata),
   chains: [eth, bsc],
   projectId,
   enableAnalytics: true // Optional - defaults to your Cloud configuration
@@ -39,16 +40,46 @@ createWeb3Modal({
 
 const ConnectWallet = () => {
 
-    const dispatch = useDispatch();
-    const { address, chainId } = useWeb3ModalAccount();
+  const dispatch = useDispatch();
+  const { address, chainId, isConnected } = useWeb3ModalAccount();
+  const { disconnect } = useDisconnect();
+  const { wallet, isWalletConnected } = useSelector(({ auth }) => auth);
 
-    useEffect(() => {
-        dispatch(updateWallet(address));
-    }, [address]);
+  useEffect(() => {
+    dispatch(updateWallet(address));
+    if (!isConnected) {
+      dispatch(updateWalletConnected(false));
+    }
+  }, [address, isConnected]);
 
-    return (
-        <w3m-button />
-    )
+  useEffect(() => {
+    if (wallet) {
+      const api = process.env.REACT_APP_API + "/check-wallet";
+      const yourJWTToken = window.localStorage.getItem("token");
+      axios.post(api,
+        { wallet: address },
+        {
+          headers: {
+            Authorization: "Bearer " + yourJWTToken
+          }
+        }
+      ).then(res => {
+        const { status, message } = res.data;
+        if (status != isWalletConnected) {
+          if (status) NotificationManager.success(message);
+          else NotificationManager.error(message);
+          dispatch(updateWalletConnected(status));
+          if (!status) disconnect();
+        }
+      }).catch(err => {
+        if (disconnect) disconnect();
+      });
+    }
+  }, [wallet]);
+
+  return (
+    <w3m-button />
+  )
 }
 
 export default ConnectWallet;

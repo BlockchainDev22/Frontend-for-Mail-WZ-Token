@@ -34,15 +34,18 @@ const Withdraw = () => {
                 const MailWZ = new ethers.Contract(contractAddress.bsc, abi, signer);
                 const nonce = await MailWZ.nonces(address);
                 const amount = ethers.utils.parseEther(profile.balance);
-                const _tax = await MailWZ.calculateTax();
-
+                
                 const signature = await withdrawSign(ethers.BigNumber.from(nonce).toHexString(), address, amount.toHexString(), contractAddress.bsc, ethersProvider);
+                const _tax = await MailWZ.calculateTax();
                 const options = { value: _tax };
                 await MailWZ.withdraw(address, amount, signature, options);
 
                 NotificationManager.success(`You have withdrawn $${profile.balance} successfully`);
                 dispatch(updateLoading(false));
-                
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000)
+
             } catch (err) {
                 console.log(err);
                 dispatch(updateLoading(false));
