@@ -10,7 +10,7 @@ import { NotificationManager } from "react-notifications";
 const Withdraw = () => {
 
     const dispatch = useDispatch();
-    const { address, chainId, isConnected } = useWeb3ModalAccount();
+    const { address, isConnected } = useWeb3ModalAccount();
     const { walletProvider } = useWeb3ModalProvider();
 
     const withdraw = async () => {
@@ -30,13 +30,20 @@ const Withdraw = () => {
                 dispatch(updateLoading(true));
                 const ethersProvider = new ethers.providers.Web3Provider(walletProvider);
                 const signer = ethersProvider.getSigner();
-
+                
                 const MailWZ = new ethers.Contract(contractAddress.bsc, abi, signer);
                 const nonce = await MailWZ.nonces(address);
                 const amount = ethers.utils.parseEther(profile.balance);
                 
                 const signature = await withdrawSign(ethers.BigNumber.from(nonce).toHexString(), address, amount.toHexString(), contractAddress.bsc, ethersProvider);
+
+                const balance = await ethersProvider.getBalance(address);
                 const _tax = await MailWZ.calculateTax();
+                if (balance < _tax) {
+                    NotificationManager.warning("Insufficient funds to pay tax");
+                    throw Error();
+                }
+
                 const options = { value: _tax };
                 await MailWZ.withdraw(address, amount, signature, options);
 
@@ -47,7 +54,6 @@ const Withdraw = () => {
                 }, 3000)
 
             } catch (err) {
-                console.log(err);
                 dispatch(updateLoading(false));
             }
         }
