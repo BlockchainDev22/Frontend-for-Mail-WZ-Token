@@ -7,13 +7,13 @@ import axios from 'axios'
 
 const projectId = '6d74644ff5318617e2b90c49de5ac19d'
 
-const eth = {
-  chainId: 1,
-  name: 'Ethereum',
-  currency: 'ETH',
-  explorerUrl: 'https://etherscan.io',
-  rpcUrl: 'https://cloudflare-eth.com'
-}
+// const eth = {
+//   chainId: 1,
+//   name: 'Ethereum',
+//   currency: 'ETH',
+//   explorerUrl: 'https://etherscan.io',
+//   rpcUrl: 'https://cloudflare-eth.com'
+// }
 
 const bsc = {
   chainId: 56, //mainnet: 56,
@@ -31,19 +31,24 @@ const metadata = {
 }
 
 createWeb3Modal({
-  ethersConfig: defaultConfig(metadata),
-  chains: [eth, bsc],
+  ethersConfig: defaultConfig({
+    metadata,
+    defaultChainId: 56,
+    rpcUrl: 'https://bsc-mainnet.nodereal.io/v1/cd4737962b15430a95b1b490baee25e5'
+  }),
+  chains: [bsc],
   projectId,
-  enableAnalytics: true // Optional - defaults to your Cloud configuration
+  enableAnalytics: true, // Optional - defaults to your Cloud configuration
+  defaultChain: bsc
 })
 
 
 const ConnectWallet = () => {
 
   const dispatch = useDispatch();
-  const { address, chainId, isConnected } = useWeb3ModalAccount();
+  const { address, isConnected } = useWeb3ModalAccount();
   const { disconnect } = useDisconnect();
-  const { wallet, isWalletConnected } = useSelector(({ auth }) => auth);
+  const { wallet } = useSelector(({ auth }) => auth);
 
   useEffect(() => {
     dispatch(updateWallet(address));
@@ -65,12 +70,12 @@ const ConnectWallet = () => {
         }
       ).then(res => {
         const { status, message } = res.data;
-        if (status != isWalletConnected) {
-          if (status) NotificationManager.success(message);
-          else NotificationManager.error(message);
-          dispatch(updateWalletConnected(status));
-          if (!status) disconnect();
+        if (status) NotificationManager.success(message);
+        else {
+          NotificationManager.error(message);
+          disconnect();
         }
+        dispatch(updateWalletConnected(status));
       }).catch(err => {
         if (disconnect) disconnect();
       });
