@@ -28,7 +28,7 @@ export const withdrawSign = async (nonce, from, amount, to, provider) => {
     };
 
     try {
-        const method = 'eth_signTypedData_v3';
+        const method = 'eth_signTypedData_v4';
         const params = [from, JSON.stringify(typedData)];
 
         // Send the request to sign the typed data using eth_signTypedData_v3
@@ -39,6 +39,7 @@ export const withdrawSign = async (nonce, from, amount, to, provider) => {
 
         return signature;
     } catch (error) {
+        console.log("error-sign", error)
         // throw new Error('Failed to sign typed data: ' + error.message);
     }
 };
