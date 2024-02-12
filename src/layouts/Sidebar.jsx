@@ -94,7 +94,7 @@ const Sidebar = () => {
 
             <nav
                 id="main-navbar"
-                className="fixed left-0 right-0 top-0 flex w-full h-16 flex-nowrap items-center justify-between bg-white py-[0.6rem] text-gray-500 shadow-lg hover:text-gray-700 focus:text-gray-700 dark:bg-zinc-700 lg:flex-wrap lg:justify-start xl:pl-60"
+                className="fixed left-0 right-0 top-0 flex w-full h-16 flex-nowrap items-center justify-between bg-white py-[0.6rem] text-gray-500 shadow-lg hover:text-gray-700 focus:text-gray-700 dark:bg-zinc-700 lg:flex-wrap lg:justify-start xl:pl-60 z-[98]"
                 data-te-navbar-ref>
                 <div
                     className="flex w-full flex-wrap items-center justify-end px-4">

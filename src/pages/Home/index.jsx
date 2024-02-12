@@ -1,8 +1,8 @@
 import Layout from "../../layouts/Layout";
 import ClipBoard from "../../components/ClipBoard";
-import Board from "../../components/Board";
 import Finance from "../../components/Finance";
 import CardBoard from "../../components/CardBoard";
+import FlipCards from "../../components/Game/FlipCards";
 
 const Home = () => {
     return (
@@ -10,9 +10,7 @@ const Home = () => {
             
             <CardBoard/>
 
-            <Board title="Flip Cards" headBg="bg-teal-400">
-
-            </Board>
+            <FlipCards/>
 
             <div className="grid lg:grid-cols-2 sm:grid-cols-1 gap-2">
 

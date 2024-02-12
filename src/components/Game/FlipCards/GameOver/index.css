@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css?family=Bangers&display=swap');
+
+@keyframes rotation {
+    to {
+        transform: rotate(360deg) translateX(-50%) translateY(-50%);
+    }
+}
+
+.game-over-container {
+    width: 100%;
+    aspect-ratio: 1;
+    /* height: 100%; */
+    color: hsl(50, 50%, 50%);
+    display: flex;
+    overflow: hidden;
+    font-family: 'Bangers', cursive;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    overflow: hidden;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+}
+
+.game-over-container:before {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: rotate(0) translateX(-50%) translateY(-50%);
+    transform-origin: 0 0;
+    width: 200%;
+    aspect-ratio: 1;
+    background: repeating-conic-gradient(hsl(248, 50%, 40%), hsl(244, 50%, 50%) 1%);
+    content: '';
+    animation: rotation 20s infinite linear;
+}
+
+h1 {
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    transform: rotate(-10deg) translateX(-50%) translateY(-50%);
+    z-index: 2;
+    font-size: 4em;
+    letter-spacing: 15px;
+    text-shadow: 1px 1px hsl(50, 50%, 45%),
+        2px 2px hsl(50, 50%, 40%),
+        3px 3px hsl(50, 50%, 35%),
+        4px 4px hsl(50, 50%, 34%),
+        5px 5px hsl(50, 50%, 33%),
+        6px 6px hsl(50, 50%, 32%),
+        7px 7px hsl(50, 50%, 31%),
+        8px 8px hsl(50, 50%, 30%),
+        9px 9px hsl(50, 50%, 29%),
+        10px 10px hsl(50, 50%, 28%),
+        10px 10px 30px rgba(0, 0, 0, .7);
+}

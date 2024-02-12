@@ -1,4 +1,4 @@
-const Board = ({ title, children, headBg = '' }) => {
+const Board = ({ title, children, headBg = '', className = '' }) => {
 
     return (
         <div
@@ -7,7 +7,7 @@ const Board = ({ title, children, headBg = '' }) => {
                 className={`border-b-2 border-[#0000002d] px-6 py-3 text-white rounded-t-lg bg-teal-400 ${headBg}`}>
                 {title}
             </div>
-            <div className="p-6 min-h-24">
+            <div className={`p-6 min-h-24 ${className}`}>
                 {children}
             </div>
         </div>

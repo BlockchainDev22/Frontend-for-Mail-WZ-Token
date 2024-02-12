@@ -45,7 +45,30 @@ const CardBoard = () => {
             navigate("/");
         });
 
+        getWonCoins();
     }, []);
+
+    const getWonCoins = () => {
+        const api = process.env.REACT_APP_API + "/game/get-won";
+        const yourJWTToken = window.localStorage.getItem("token");
+        
+        axios.post(api,
+            {},
+            {
+                headers: {
+                    Authorization: "Bearer " + yourJWTToken
+                }
+            }
+        ).then(res => {
+            const { won } = res.data
+            let _cards = [...cards];
+            _cards[0].qty = won;
+            setCards(_cards);
+        }).catch(err => {
+            localStorage.removeItem("token");
+            navigate("/");
+        });
+    }
 
     return (
         <div className="grid gap-4 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 mt-4">
