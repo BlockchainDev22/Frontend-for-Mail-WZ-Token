@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { TEInput } from "tw-elements-react";
 import { NotificationManager } from "react-notifications";
 
 const Register = () => {
 
     const navigate = useNavigate();
+    const [searchParams, ] = useSearchParams();
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -14,7 +15,8 @@ const Register = () => {
     const [password_confirmation, setPasswordConfirmation] = useState('');
 
     const onRegister = async () => {
-        const url = process.env.REACT_APP_API + '/register';
+        const ref = searchParams.get("ref");
+        const url = process.env.REACT_APP_API + '/register' + ref ? `?ref=${ref}` : '';
         await axios.post(url, {
             name,
             email,
