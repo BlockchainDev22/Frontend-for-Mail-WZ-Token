@@ -99,7 +99,7 @@ const Sidebar = () => {
                 <div
                     className="flex w-full flex-wrap items-center justify-end px-4">
                     <ConnectWallet />
-                    <w3m-network-button />
+                    {/* <w3m-network-button /> */}
 
 
                     <ul className="relative flex items-center ml-4">

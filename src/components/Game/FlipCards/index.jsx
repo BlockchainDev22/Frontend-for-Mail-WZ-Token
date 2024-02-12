@@ -30,7 +30,7 @@ const FlipCards = () => {
   useEffect(() => {
     if (isFinished) {
       setTimeout(() => {
-        setIsFinished(false);
+        // setIsFinished(false);
       }, 3000);
     }
   }, [isFinished]);
@@ -163,7 +163,7 @@ const FlipCards = () => {
             </div>
           ))}
         </div>
-        <div className="flex justify-center items-center mt-12 mb-3 gap-3">
+        <div className="flex justify-center items-center mt-12 mb-3 gap-3 flex-wrap">
           <label className="font-bold text-green-600">Place Bet: </label>
           <div className="inline-flex" role="group">
             {bets.map((_bet, index) => (

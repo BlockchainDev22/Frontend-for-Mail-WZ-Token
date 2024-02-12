@@ -4,7 +4,7 @@ import Withdraw from "./Withdraw";
 const Finance = () => {
     return (
         <Board title="Finance" headBg="bg-teal-400">
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap justify-center">
                 <Withdraw/>
                 <button
                     type="button"
