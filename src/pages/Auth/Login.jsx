@@ -32,7 +32,7 @@ const Login = () => {
     }
 
     return (
-        <section className="gradient-form h-full bg-auth">
+        <section className="gradient-form flex min-h-screen items-center h-full bg-auth">
             <div className="container max-w-6xl h-full p-10 mx-auto">
                 <div
                     className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">

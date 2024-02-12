@@ -138,10 +138,12 @@ const FlipCards = () => {
         dispatch(updateWon(won));
       })
       .catch(() => {});
-
-    setIsFliped(false);
-    setIsFinished(true);
+    
     setBet(0);
+    setTimeout(() => {
+      setIsFliped(false);
+      setIsFinished(true);
+    }, 1500);
   };
 
   return (
