@@ -7,6 +7,8 @@ import { getRandomNumber, rankPokerHand } from "../../../utils/utils";
 import Board from "../../Board";
 import GameWin from "./GameOver/GameWin";
 import "./index.css";
+import { useDispatch } from "react-redux";
+import { updateTotal, updateWon } from "../../../app/reducers/balance.reducer";
 
 const tempCard = [
   { card: "diamonds_2", value: 2, color: 8 },
@@ -17,6 +19,8 @@ const tempCard = [
 ];
 
 const FlipCards = () => {
+  const dispatch = useDispatch();
+
   const [isFliped, setIsFliped] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [won, setWon] = useState({
@@ -30,7 +34,7 @@ const FlipCards = () => {
   useEffect(() => {
     if (isFinished) {
       setTimeout(() => {
-        // setIsFinished(false);
+        setIsFinished(false);
       }, 3000);
     }
   }, [isFinished]);
@@ -128,7 +132,11 @@ const FlipCards = () => {
         },
         headers
       )
-      .then(() => {})
+      .then((res) => {
+        const { total, won } = res.data;
+        dispatch(updateTotal(total));
+        dispatch(updateWon(won));
+      })
       .catch(() => {});
 
     setIsFliped(false);

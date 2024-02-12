@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import StatusCard from "../Cards/StatusCard";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { updateTotal, updateWon } from "../../app/reducers/balance.reducer";
 
 const cardDefault = [
     {
@@ -20,12 +22,15 @@ const cardDefault = [
 
 const CardBoard = () => {
 
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const balance = useSelector((reducer) => reducer.balance);
     const [cards, setCards] = useState(cardDefault);
 
     useEffect(() => {
 
-        const api = process.env.REACT_APP_API + "/profile";
+        const api = process.env.REACT_APP_API + "/game/get-balance";
         const yourJWTToken = window.localStorage.getItem("token");
         
         axios.post(api,
@@ -36,39 +41,23 @@ const CardBoard = () => {
                 }
             }
         ).then(res => {
-            const { balance } = res.data.data
-            let _cards = [...cards];
-            _cards[3].qty = balance;
-            setCards(_cards);
+            const { total, won } = res.data;
+            dispatch(updateTotal(total));
+            dispatch(updateWon(won));
         }).catch(err => {
             localStorage.removeItem("token");
             navigate("/");
         });
 
-        getWonCoins();
     }, []);
 
-    const getWonCoins = () => {
-        const api = process.env.REACT_APP_API + "/game/get-won";
-        const yourJWTToken = window.localStorage.getItem("token");
-        
-        axios.post(api,
-            {},
-            {
-                headers: {
-                    Authorization: "Bearer " + yourJWTToken
-                }
-            }
-        ).then(res => {
-            const { won } = res.data
-            let _cards = [...cards];
-            _cards[0].qty = won;
-            setCards(_cards);
-        }).catch(err => {
-            localStorage.removeItem("token");
-            navigate("/");
-        });
-    }
+    useEffect(() => {
+        let _cards = [...cards];
+        _cards[0].qty = balance.won;
+        _cards[3].qty = balance.total;
+
+        setCards(_cards);
+    }, [balance]);
 
     return (
         <div className="grid gap-4 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 mt-4">
