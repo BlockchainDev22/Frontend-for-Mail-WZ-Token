@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     won: "0",
     signup: "100",
-    referral: "0",
+    share: "0",
     total: "0"
 };
 
@@ -21,8 +21,8 @@ const balanceSlice = createSlice({
             state.signup = action.payload;
         },
 
-        updateReferral(state, action) {
-            state.referral = action.payload;
+        updateShare(state, action) {
+            state.share = action.payload;
         },
 
         updateTotal(state, action) {
@@ -31,5 +31,5 @@ const balanceSlice = createSlice({
     }
 });
 
-export const { updateWon, updateSignup, updateReferral, updateTotal } = balanceSlice.actions;
+export const { updateWon, updateSignup, updateShare, updateTotal } = balanceSlice.actions;
 export default balanceSlice.reducer;

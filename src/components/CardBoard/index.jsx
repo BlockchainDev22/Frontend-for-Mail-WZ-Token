@@ -3,7 +3,7 @@ import StatusCard from "../Cards/StatusCard";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateTotal, updateWon } from "../../app/reducers/balance.reducer";
+import { updateShare, updateTotal, updateWon } from "../../app/reducers/balance.reducer";
 
 const cardDefault = [
     {
@@ -41,9 +41,10 @@ const CardBoard = () => {
                 }
             }
         ).then(res => {
-            const { total, won } = res.data;
+            const { total, won, share } = res.data;
             dispatch(updateTotal(total));
             dispatch(updateWon(won));
+            dispatch(updateShare(share));
         }).catch(err => {
             localStorage.removeItem("token");
             navigate("/");
@@ -54,6 +55,7 @@ const CardBoard = () => {
     useEffect(() => {
         let _cards = [...cards];
         _cards[0].qty = balance.won;
+        _cards[2].qty = balance.share;
         _cards[3].qty = balance.total;
 
         setCards(_cards);

@@ -2,9 +2,12 @@
 import { useEffect } from "react";
 import ConnectWallet from "../components/ConnectWallet";
 import Nav from "../components/Nav";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { NotificationManager } from "react-notifications";
+import { useDispatch } from "react-redux";
+import { updateEmail, updateId, updateName } from "../app/reducers/auth.reducer";
+import { getProfile } from "../utils/utils";
 
 const navs = [
     {
@@ -20,14 +23,20 @@ const navs = [
 
 const Sidebar = () => {
 
-    const location = useLocation();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
+        async function run() {
+            const profile = await getProfile();
+            const { name, email, id } = profile;
+            dispatch(updateEmail(email));
+            dispatch(updateName(name));
+            dispatch(updateId(id));
+        }
 
-        console.log(location);
-
-    }, [location]);
+        run();
+    }, [])
 
     const logout = async () => {
         const api = process.env.REACT_APP_API + "/logout";
