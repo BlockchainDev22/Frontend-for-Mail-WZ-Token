@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { TEInput } from "tw-elements-react";
 import { NotificationManager } from "react-notifications";
 
@@ -16,18 +16,19 @@ const Register = () => {
 
     const onRegister = async () => {
         const ref = searchParams.get("ref");
-        const url = process.env.REACT_APP_API + '/register' + ref ? `?ref=${ref}` : '';
-        await axios.post(url, {
+        const api = process.env.REACT_APP_API + '/register' + (ref ? `?ref=${ref}` : '');
+        await axios.post(api, {
             name,
             email,
             password,
             password_confirmation
         }).then(res => {
-            const { message, status } = res.data;
+            const { message, status, token } = res.data;
 
             if (status) {
                 NotificationManager.success(message);
-                navigate("/");
+                localStorage.setItem("token", token);
+                navigate("/home");
             }
 
             else {

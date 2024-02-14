@@ -59,7 +59,7 @@ const ConnectWallet = () => {
 
   useEffect(() => {
     if (wallet) {
-      const api = process.env.REACT_APP_API + "/check-wallet";
+      const api = process.env.REACT_APP_API + "/update-wallet";
       const yourJWTToken = window.localStorage.getItem("token");
       axios.post(api,
         { wallet: address },
@@ -70,8 +70,7 @@ const ConnectWallet = () => {
         }
       ).then(res => {
         const { status, message } = res.data;
-        if (status) NotificationManager.success(message);
-        else {
+        if (!status) {
           NotificationManager.error(message);
           disconnect();
         }
