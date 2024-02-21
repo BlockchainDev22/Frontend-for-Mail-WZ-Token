@@ -21,8 +21,8 @@ const Withdraw = () => {
 
         const profile = await getProfile();
         if (profile?.balance) {
-            if (profile?.balance == 0) {
-                NotificationManager.warning("Insufficient funds", "Warning");
+            if (profile?.balance <= 0) {
+                NotificationManager.warning("No balance in account", "Warning");
                 return;
             }
 
@@ -32,28 +32,35 @@ const Withdraw = () => {
                 const signer = ethersProvider.getSigner();
                 
                 const MailWZ = new ethers.Contract(contractAddress.bsc, abi, signer);
-                const nonce = await MailWZ.nonces(address);
+                const nonce = await MailWZ.nonce(address);
                 const amount = ethers.utils.parseEther(profile.balance);
                 
                 const signature = await withdrawSign(ethers.BigNumber.from(nonce).toHexString(), address, amount.toHexString(), contractAddress.bsc, ethersProvider);
 
                 const balance = await ethersProvider.getBalance(address);
                 const _tax = await MailWZ.calculateTax();
-                if (balance < _tax) {
-                    NotificationManager.warning("Insufficient funds to pay tax");
+
+                if (balance.lte(_tax)) {
+                    NotificationManager.warning("Insufficient funds to pay tax", "Warning");
                     throw Error();
                 }
 
                 const options = { value: _tax };
-                await MailWZ.withdraw(address, amount, signature, options);
-
-                NotificationManager.success(`You have withdrawn $${profile.balance} successfully`);
+                const tx = await MailWZ.withdraw(address, amount, signature, options);
+                await tx.wait();
+                
+                NotificationManager.success(`You have withdrawn $${profile.balance} successfully`, "Success");
                 dispatch(updateLoading(false));
                 setTimeout(() => {
                     window.location.reload();
                 }, 3000)
 
             } catch (err) {
+                const err_result = JSON.parse(JSON.stringify(err));
+                if (err_result?.reason === "transaction failed") {
+                    NotificationManager.error("Withdraw is failed", "Error");
+                }
+
                 dispatch(updateLoading(false));
             }
         }

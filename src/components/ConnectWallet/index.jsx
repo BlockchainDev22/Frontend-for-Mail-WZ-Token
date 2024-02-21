@@ -7,20 +7,12 @@ import axios from 'axios'
 
 const projectId = '6d74644ff5318617e2b90c49de5ac19d'
 
-// const eth = {
-//   chainId: 1,
-//   name: 'Ethereum',
-//   currency: 'ETH',
-//   explorerUrl: 'https://etherscan.io',
-//   rpcUrl: 'https://cloudflare-eth.com'
-// }
-
 const bsc = {
   chainId: 56, //mainnet: 56,
   name: "Binance Smart Chain",
   currency: "BNB",
   explorerUrl: "https://bscscan.com",
-  rpcUrl: "https://bsc-mainnet.nodereal.io/v1/cd4737962b15430a95b1b490baee25e5"
+  rpcUrl: "https://bsc-dataseed1.binance.org/"
 }
 
 const metadata = {
@@ -34,7 +26,7 @@ createWeb3Modal({
   ethersConfig: defaultConfig({
     metadata,
     defaultChainId: 56,
-    rpcUrl: 'https://bsc-mainnet.nodereal.io/v1/cd4737962b15430a95b1b490baee25e5'
+    rpcUrl: 'https://bsc-dataseed1.binance.org/'
   }),
   chains: [bsc],
   projectId,
