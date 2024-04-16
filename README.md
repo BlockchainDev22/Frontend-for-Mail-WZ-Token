@@ -68,3 +68,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+### Preview
+![alt text](https://github.com/BlockchainDev22/Frontend-for-Mail-WZ-Token/blob/main/intro/screencapture-mailwz-tk-auth-login-2024-04-16-11_11_42.png)
+![alt text](https://github.com/BlockchainDev22/Frontend-for-Mail-WZ-Token/blob/main/intro/screencapture-mailwz-tk-home-2024-04-16-11_12_24.png)
