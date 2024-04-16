@@ -31,6 +31,7 @@ const AddToken = () => {
           },
         });
     } catch(err) {
+        alert(JSON.stringify(err));
         const errors = JSON.parse(JSON.stringify(err));
         if (errors?.code === -32602) {
             NotificationManager.info("Token is already existed in wallet", "Info");
